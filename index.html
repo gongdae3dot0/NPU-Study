@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 | 공대삼쩜영</title>
+    <meta name="description" content="딱 2개월, 현업처럼 부딪혀보십시오. Mini-NPU Core를 직접 설계하고 검증하는 실전 프로젝트">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gongdae3dot0.github.io">
+    <meta property="og:title" content="[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 스터디 | 공대삼쩜영">
+    <meta property="og:description" content="딱 2개월, 현업처럼 부딪혀보십시오. Mini-NPU Core를 직접 설계하고 검증하는 실전 프로젝트">
+    <meta property="og:image" content="https://raw.githubusercontent.com/gongdae3dot0/NPU-design/main/og-image2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://gongdae3dot0.github.io">
+    <meta property="twitter:title" content="[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 스터디 | 공대삼쩜영">
+    <meta property="twitter:description" content="딱 2개월, 현업처럼 부딪혀보십시오. Mini-NPU Core를 직접 설계하고 검증하는 실전 프로젝트">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/gongdae3dot0/test1-npu/main/og-image2.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            /*font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;*/
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #e8eaed;
+            background: #0b0c10;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1d29 0%, #0b0c10 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e5b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
+            color: #0b0c10;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
+            color: white;
+            padding: 120px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.05) 50%, transparent 100%);
+            z-index: 0;
+        }
+        
+        .hero > .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 24px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            color: #c5c8cd;
+        }
+        
+        .hero .tagline {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 30px 0;
+            padding: 25px 40px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 15px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
+            color: #0b0c10;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 10px 5px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Problem Section */
+        .problem-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .problem-card {
+            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+        
+        .problem-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+        
+        .problem-card p {
+            color: #c5c8cd;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .problem-card .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            filter: grayscale(30%);
+        }
+        
+        /* Solution Section */
+        .solution-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);
+            position: relative;
+        }
+        
+        .solution-section p {
+            color: #c5c8cd;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 25px;
+            margin: 50px auto;
+            max-width: 900px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+        }
+        
+        .highlight-box h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #d4af37;
+        }
+        
+        .highlight-box p {
+            font-size: 17px;
+            line-height: 2;
+            color: #c5c8cd;
+        }
+        
+        /* Interview Quote */
+        .interview-quote {
+            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%);
+            border-left: 5px solid #d4af37;
+            padding: 40px 50px;
+            margin: 50px auto;
+            max-width: 900px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: normal;
+            color: #e8eaed;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        
+        /* Curriculum Section */
+        .curriculum-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
+        }
+        
+        .curriculum-list {
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .curriculum-item {
+            padding: 35px;
+            margin: 25px 0;
+            border-left: 4px solid #d4af37;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: white;
+            text-align: center;
+        }
+        
+        .curriculum-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-left-width: 8px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .curriculum-item h4 {
+            color: #d4af37;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .curriculum-item p {
+            color: #c5c8cd;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        
+        /* Target Audience */
+        .target-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+        
+        .info-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+        
+        .info-card p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #c5c8cd;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
+            text-align: center;
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 60px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+        }
+        
+        .original-price {
+            font-size: 26px;
+            text-decoration: line-through;
+            color: #6b6e76;
+            margin-bottom: 10px;
+        }
+        
+        .current-price {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e5b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        
+        .early-bird {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
+            color: #0b0c10;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .benefits-list {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .benefits-list h4 {
+            color: #d4af37;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .benefits-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            color: #c5c8cd;
+            padding: 12px 0;
+            font-size: 17px;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* CTA Section */
+        .final-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+        
+        .final-cta > .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .final-cta h2 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .final-cta .cta-button-large {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
+            color: #0b0c10;
+            padding: 25px 70px;
+            font-size: 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 700;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .final-cta .cta-button-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.6);
+        }
+        
+        /* Footer */
+        footer {
+            background: #0b0c10;
+            color: #c5c8cd;
+            text-align: center;
+            padding: 50px 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero .subtitle {
+                font-size: 18px;
+            }
+            
+            .hero .tagline {
+                font-size: 22px;
+                padding: 20px 25px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .problem-grid, .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .curriculum-list {
+                padding: 20px;
+            }
+            
+            .curriculum-item {
+                padding: 25px;
+            }
+            
+            .curriculum-item h4 {
+                font-size: 19px;
+            }
+            
+            .curriculum-item p {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+            
+            .highlight-box {
+                padding: 30px 25px;
+            }
+            
+            .highlight-box p {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+            
+            .interview-quote {
+                font-size: 17px;
+                padding: 25px;
+            }
+            
+            .price-card {
+                padding: 40px 25px;
+            }
+            
+            .benefits-list {
+                padding: 25px 20px;
+            }
+            
+            .benefits-list li {
+                font-size: 15px;
+            }
+            
+            .final-cta h2 {
+                font-size: 28px;
+            }
+            
+            .final-cta .cta-button-large {
+                padding: 18px 45px;
+                font-size: 20px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">공대삼쩜영 회로설계</div>
+                <a href="#apply" class="cta-button">지금 신청하기</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <p class="subtitle" style="font-size: 18px; margin-bottom: 10px; opacity: 0.95; font-weight: 500;">반도체 엔지니어를 위한 특별한 성장 경험</p>            
+            <h1 class="fade-in">Mini-NPU Core RTL<br>설계 및 검증</h1>
+            <p class="subtitle">공대삼쩜영이 스터디원을 모집합니다</p>
+            <div class="badge">📋 면접 후 최종확정</div>
+            <p class="tagline">2개월 안에 수료!<br>
+                현업 프로젝트 함께하기</p>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="container">
+            <h2 class="section-title">이런 고민 하고 계신가요?</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="icon">⏱️</div>
+                    <h3>단기 vs 장기 교육의 딜레마</h3>
+                    <p>1~3일짜리 단기 교육은 스펙이 안 되고<br>
+                        3개월 이상 교육은<br>
+                        학업과 병행하기 어렵습니다.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">💼</div>
+                    <h3>취업에 부족한 경험</h3>
+                    <p>학교 전공수업, 캡스톤, 이론 강의만으로는<br>
+                        취업하기 힘들어진 세상입니다.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">📚</div>
+                    <h3>규모가 큰 프로젝트 경험</h3>
+                    <p>학부연구생/인턴은 하고 싶어도<br>
+                        할 수 없는게 현실입니다.</p>
+                </div>                
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 60px;">
+                <h3><span style="filter: none; color: white;"></span> To. 취준생</h3>                    
+                <p><strong>현업에선 말이야.<br></strong>
+                    모든 개념을 완벽하게 배우고 시작하지 않아.<br>
+                    오히려 모르는 상태로 부딪히면서 배우는게 훨씬 많지.<br>
+                    <br>
+                    일단 디버깅부터 시작해.<br>
+                    신호를 따라가다 보면 자연스럽게 구조를 익히게 되고<br>
+                    필요한 개념은 그때그때 찾아보면서 채우는 거야.<br>
+                    <br>
+                <strong>나는 Verilog를 한 번도 해본 적 없는<br>
+                    Zero-base에서 실무를 시작했어.<br></strong> 
+                    현업 설계 도면을 뜯어보면서<br>
+                    그때그때 필요한 이론을 채웠는데,<br>
+                    돌아보면<br>
+                    이 방식이 가장 빠르게 성장할 수 있었던 길이더라.<br>
+                    <br>
+                    입사 1~2년 만에<br>
+                    인사고과 Top-Grade를 받은 것도<br>
+                    결국 이 방식 덕분이었어.<br>
+                    <br>
+                <strong>지금부터 딱 2개월 동안<br>
+                    현업처럼 트레이닝 시켜줄게.</strong><br>
+                    이론부터 프로젝트까지 전부 커버할거야.<br>
+                    단순히 Tool을 만지는 경험이 아니라<br>
+                    회로설계 실무자가 실제로 하는 설계와<br>
+                    디버깅을 직접 해볼 수 있는 프로그램도 제공할 거야.<br>
+                    <br>
+                    프로젝트 결과물은<br>
+                    그대로 네 개인 이력으로 연결되고,<br>
+                    자소서 면접에서 자신 있게 꺼낼 수 있는<br>
+                    고퀄리티 포트폴리오가 될 거야.<br>
+                    <br>                    
+                - 공대삼쩜영 -</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section">
+        <div class="container">
+            <h2 class="section-title">그래서 준비했습니다</h2>
+            <p style="text-align: center; font-size: 20px; color: #c5c8cd; margin-bottom: 40px;">
+                딱 2개월 동안, 현업 방식 그대로<br>Mini-NPU Core를 직접 설계하고<br>
+                검증해보는 과정
+            </p>            
+            
+            <p style="text-align: center; font-size: 24px; font-weight: 600; color: #d4af37; margin-top: 40px;">
+                이 과정을 따라오시면<br>면접장에서<br>
+                이렇게 말할 수 있습니다.
+            </p>
+            
+            <div class="interview-quote">
+                <p>"저는 NPU 논문을 직접 공부하여, 스펙 분석부터 시작해서 RTL HW 구현까지 직접 설계하고 검증해본 경험이 있습니다."</p>
+                <p style="margin-top: 20px;">"2x2 Systolic MAC, Controller를 아우르는 전체 data-path를 설계하였고,<br>Testbench를 직접 구현하여 AMBA APB 환경에서 검증해보았습니다."</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="curriculum-section">
+        <div class="container">
+            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">📚</span> 프로젝트 진행 과정정</h2>            
+            <div class="curriculum-list">
+                <div class="curriculum-item">
+                    <h4>1️⃣<br>
+                        NPU 구조 이해<br>
+                        & HW 설계 스케치</h4>
+                    <p>✓ 논문 스터디/세미나<br>
+                        ✓ NPU 구조 및 동작원리 스터디</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>2️⃣<br>
+                        RTL 설계 - VerilogHDL</h4>
+                    <p>✓ 실제 NPU CHIP 동작 시나리오를 축소 모델로 구현<br>
+                        ✓ NPU Core PE 설계 튜토리얼<br>
+                        ✓ 단일 PE를 2D Systolic 구조로 확장<br>
+                        ✓ NPU Controller 설계</p>
+                </div>
+                <div class="curriculum-item">
+                    <h4>3️⃣<br>
+                        실무 검증 - SystemVerilog</h4>
+                    <p>✓ 실전 Simulation 검증 환경 구축<br>
+                        ✓ Self-checking Testbench 구현<br>
+                        ✓ SoC AMBA APB 기반 검증 환경 구축 및 시뮬레이션</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="target-section">
+        <div class="container">
+            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">🎯</span> 이런 분들께 추천합니다</h2>            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>참여 대상</h3>
+                    <p>반도체 회로설계 진로를 희망하는<br>3학년 이상 학생</p>
+                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">선수과목: 디지털논리, Verilog 연관 교과목</p>
+                </div>
+                <div class="info-card">
+                    <h3>진행 방식</h3>
+                    <p>매주 1회 Zoom 미팅<br>
+                        + 상시 1:1케어</p>
+                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">매주 화요일 21:00 ~ 22:30 (조율가능)<br>
+                        사수-부사수 관계로 실질적 설계 참여<br>
+                        <br>
+                        ※ 미팅 시간은 강의/과제안내/과제점검/세미나 등으로 유연하게 활용할 예정이며
+                        매주 설계과제 등 미션있습니다.<br>
+                        ※ 예상일정은 12월 초중순 시작 ~ 2월 중 완료이며, 인원 모집 상황에 따라 변동될 수 있습니다.</p>
+                </div>
+                <div class="info-card">
+                    <h3>사전 면접</h3>
+                    <p>레벨 테스트 + 유선 통화로<br>스터디원 확정</p>
+                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">단순 전달식 강의가 아닌<br>직접 참여하는 프로젝트</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section">
+        <div class="container">
+            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">💰</span> 참가비</h2>            
+            <div class="price-card">
+                <div class="original-price">400,000원</div>
+                <div class="early-bird">🎁 얼리버드 할인</div>
+                <div class="current-price">360,000원</div>
+                
+                <div class="benefits-list">
+                    <h4>🎁 얼리버드 특별 혜택</h4>
+                    <ul>
+                        <li><a href="https://blog.naver.com/star2134/223633273536" target="_blank" style="color: #d4af37; text-decoration: underline;">디지털설계 직무 공략집</a> 제공</li>                        
+                        <li>회로설계 고퀄리티 자소서 제공</li>
+                        <li>삼성 직무면접 문제풀이 복기본 제공</li>
+                        <li>합격 이력서 제공</li>
+                    </ul>
+                </div>
+                
+                <p style="color: #c5c8cd; margin-top: 40px; font-size: 17px;">
+                    📅 예상 일정<br>
+                    12월 초중순 시작 ~ 2월 중 완료<br>
+                    <span style="font-size: 14px; opacity: 0.7;">※ 인원 모집 상황에 따라 변동될 수 있습니다<br></span>                    
+                    <span style="font-size: 14px; opacity: 0.7;">※ 정기 Zoom 미팅 - 매주 화요일 21시 </span>                    
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta" id="apply">
+        <div class="container">
+            <h2>딱 2개월 동안!<br>
+                현업처럼 부딪혀보는 설계 프로젝트</h2>
+            <p style="font-size: 22px; margin: 20px 0; opacity: 0.9; color: #c5c8cd;">
+                반도체 회로설계,<br>
+                단기교육과 장기교육 사이에서<br>
+                고민하고 계신가요?<br>
+                <br>
+                그렇다면 선택지는 하나입니다.
+            </p>
+            <a href="https://forms.gle/nfsBoruEyPWzvQEs8" class="cta-button-large">지금 신청하기 →</a>
+            <p style="font-size: 17px; margin-top: 40px; opacity: 0.9; color: #c5c8cd;">
+                💬 <a href="https://open.kakao.com/o/sZ1Dm4zf" style="color: #d4af37; text-decoration: underline; font-weight: 600;">카카오톡 오픈채팅으로 문의하기</a>
+            </p>
+        </div>
+    </section>
+
+    <section style="padding: 50px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);">
+        <div class="container">
+            <h2 style="font-size: 24px; color: #d4af37; margin-bottom: 25px; font-weight: 600;">공대삼쩜영 알아보기</h2>
+            
+            <div style="max-width: 350px; margin: 0 auto;">
+                <a href="https://www.youtube.com/@gongdae3.0" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 22px;">🎥</span>
+                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">YouTube</span>
+                    </div>
+                    <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">비공개 무료강의 & 취업 콘텐츠</span>
+                </a>
+                
+                <a href="https://blog.naver.com/star2134/223633273536" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 22px;">📝</span>
+                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Blog</span>
+                    </div>
+                    <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">기술 블로그 & 취업 정보 공유</span>
+                </a>
+                
+                <a href="https://wikidocs.net/289932" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 22px;">📚</span>
+                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Wikidocs</span>
+                    </div>
+                    <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">회로설계 기술 문서</span>
+                </a>
+                
+                <a href="https://www.instagram.com/gongdae3.0" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 22px;">📷</span>
+                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Instagram</span>
+                    </div>
+                    <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">이공계 취업 정보</span>
+                </a>
+                
+                <a href="https://naeildo-letuinedu.com/Lecture/lecView?no=144" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; transition: all 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 22px;">🎓</span>
+                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">렛유인</span>
+                    </div>
+                    <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">국비지원 부트캠프</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 공대삼쩜영. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 14px; opacity: 0.7;">
+                반도체 엔지니어를 위한 특별한 성장 경험
+            </p>
+        </div>
+    </footer>    
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to sections
+        document.querySelectorAll('.problem-card, .curriculum-item, .info-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
