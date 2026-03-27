@@ -191,16 +191,20 @@
             background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
             border-radius: 20px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.3);
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; /* 모바일에서 부드러운 스크롤 */            
         }
         .schedule-table { width: 100%; border-collapse: collapse; }
         .schedule-table th {
             background: rgba(212,175,55,0.12); color: #d4af37;
             padding: 14px 20px; font-size: 14px; font-weight: 600;
             border-bottom: 1px solid rgba(212, 175, 55, 0.3); text-align: center;
+            white-space: nowrap;
         }
         .schedule-table td {
             padding: 14px 20px; font-size: 15px; color: #c5c8cd;
             border-bottom: 1px solid rgba(212,175,55,0.07); text-align: center; vertical-align: middle;
+            white-space: nowrap;
         }
         .schedule-table tr:last-child td { border-bottom: none; }
         .schedule-table tr.active-row td { color: white; background: rgba(212,175,55,0.05); }
@@ -293,7 +297,74 @@
         
         /* Footer */
         footer { background: #0b0c10; color: #c5c8cd; text-align: center; padding: 50px 0; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        
+                
+        /* -------------------------------------
+            FAQ (자주 묻는 질문) Section 
+            ------------------------------------- */
+        .faq-section { padding: 80px 0 100px; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%); }
+        .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
+        .faq-item {
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 25px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #e8eaed;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+        }
+        .faq-item.active .faq-question {
+            color: #d4af37;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .faq-icon {
+            font-size: 24px;
+            color: #d4af37;
+            transition: transform 0.3s ease;
+            font-weight: 400;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg); /* 클릭 시 + 가 x 로 돌아가는 효과 */
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: rgba(0,0,0,0.2);
+            border-radius: 0 0 15px 15px;
+        }
+        .faq-answer p {
+            padding: 0 30px;
+            color: #c5c8cd;
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            padding: 25px 0;
+        }
+        .faq-item.active .faq-answer p {
+            opacity: 1;
+        }
+                
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 32px; }
@@ -600,6 +671,50 @@
                 </p>
             </div>
         </section>
+        
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">❓</span> 자주 묻는 질문</h2>
+                <div class="faq-container">
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">Q. Verilog 베이스가 약한데 따라갈 수 있나요? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>지난 기수에서 Verilog 입문자가 꽤 많았는데요.<br>
+                                90% 이상이 산출물 완성도가 높았습니다.<br>
+                                단, 독학으로 기본 문법은 학습해주셔야 하며, 실제로 code를 다루는 것은 week 3부터이기 때문에 학습할 시간이 충분히 있습니다.</p>
+                        </div>
+                    </div>
+        
+                    <div class="faq-item">
+                        <button class="faq-question">Q. 환불 규정은 어떻게 되나요? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>스터디가 시작되면 환불은 불가합니다.<br>
+                                Verilog 입문자부터 현직자까지 참여하시는 분들이 다양한데요.<br>
+                                스터디에 시간만 충분히 할애해주신다면 못 따라오는 분은 아직 못봤습니다.<br>
+                                무조건 직무역량 0순위 경험으로 가져갈 수 있도록 도와드릴 겁니다.</p>
+                        </div>
+                    </div>
+        
+                    <div class="faq-item">
+                        <button class="faq-question">Q. 시험기간은 휴강하나요? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>본 과정에 현직자 분들도 참여하시지만 대부분 대학생이기 때문에 시험기간은 휴강하는 편입니다.</p>
+                        </div>
+                    </div>
+        
+                    <div class="faq-item">
+                        <button class="faq-question">Q. 주 1회 온라인으로 모여서 뭘 하나요? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>지난 1주 동안 스터디 했던 것을 서로 나누기도 하고, 다음 1주 동안 해야할 분량에 대하여 의논합니다.</p>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </section>
+
+
     </div> <section style="padding: 50px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);">
         <div class="container">
             <h2 style="font-size: 24px; color: #d4af37; margin-bottom: 25px; font-weight: 600;">공대삼쩜영 알아보기</h2>
@@ -697,11 +812,34 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.problem-card, .curriculum-item, .info-card, .testimonial-card, .time-card').forEach(el => {
+        // 기존 코드에 , .faq-item 을 덧붙여 줍니다.
+        document.querySelectorAll('.problem-card, .curriculum-item, .info-card, .testimonial-card, .time-card, .faq-item').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
+        });
+
+        // 🌟 4. FAQ Accordion 동작 스크립트 🌟
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+            
+                // 하나를 열면 나머지 모두 닫기 (자동 닫힘 기능)
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                });
+            
+                // 클릭한 것이 닫혀있었다면 부드럽게 열기
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 50 + "px"; // 텍스트 높이에 맞춰 자동 계산
+                }
+            });
         });
     </script>
 </body>
