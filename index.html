@@ -6,7 +6,6 @@
     <title>[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 | 공대삼쩜영</title>
     <meta name="description" content="딱 2개월, 현업처럼 부딪혀보십시오. Mini-NPU Core를 직접 설계하고 검증하는 실전 프로젝트">
     
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gongdae3dot0.github.io">
     <meta property="og:title" content="[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 스터디 | 공대삼쩜영">
@@ -15,7 +14,6 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://gongdae3dot0.github.io">
     <meta property="twitter:title" content="[스터디원 모집] Mini-NPU Core RTL 설계 및 검증 스터디 | 공대삼쩜영">
@@ -47,17 +45,22 @@
             padding: 0 20px;
         }
         
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #1a1d29 0%, #0b0c10 100%);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.1);
+        /* -------------------------------------
+           Sticky Header & Tabs Wrapper
+           ------------------------------------- */
+        .sticky-wrapper {
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #1a1d29 0%, #0b0c10 100%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header */
+        header {
+            color: white;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
         
         .header-content {
@@ -91,724 +94,285 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5);
         }
+
+        /* Sticky Tabs */
+        .sticky-tabs {
+            background: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .sticky-tabs .tab-list {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .tab-link {
+            color: #8a8d95;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-link:hover {
+            color: #e8eaed;
+        }
+
+        .tab-link.active {
+            color: #d4af37;
+        }
+
+        .tab-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #d4af37;
+            border-radius: 3px 3px 0 0;
+        }
         
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
             color: white;
-            padding: 120px 0 100px;
+            padding: 100px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
         
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
             z-index: 0;
         }
         
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.05) 50%, transparent 100%);
-            z-index: 0;
-        }
-        
-        .hero > .container {
-            position: relative;
-            z-index: 1;
-        }
+        .hero > .container { position: relative; z-index: 1; }
         
         .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            font-size: 56px; font-weight: 800; margin-bottom: 20px; line-height: 1.2;
             background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         
-        .hero .subtitle {
-            font-size: 24px;
-            margin-bottom: 15px;
-            opacity: 0.9;
-            color: #c5c8cd;
-        }
+        .hero .subtitle { font-size: 24px; margin-bottom: 15px; opacity: 0.9; color: #c5c8cd; }
         
         .hero .tagline {
-            font-size: 32px;
-            font-weight: 600;
-            margin: 30px 0;
-            padding: 25px 40px;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 15px;
-            display: inline-block;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 32px; font-weight: 600; margin: 30px 0; padding: 25px 40px;
+            background: rgba(212, 175, 55, 0.1); border-radius: 15px; display: inline-block;
+            backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.3);
         }
         
         .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
-            color: #0b0c10;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            margin: 10px 5px;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-        }
-        
-        /* Problem Section */
-        .problem-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
-            position: relative;
+            display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
+            color: #0b0c10; padding: 10px 20px; border-radius: 25px; font-weight: 600;
+            margin: 10px 5px; font-size: 14px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         
         .section-title {
-            text-align: center;
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 60px;
+            text-align: center; font-size: 42px; font-weight: 700; margin-bottom: 60px;
             background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            z-index: 1;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            position: relative; z-index: 1;
         }
         
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-            position: relative;
-            z-index: 1;
+        /* -------------------------------------
+           기수별 일정 테이블
+           ------------------------------------- */
+        .schedule-table-wrap {
+            max-width: 700px; margin: 0 auto;
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
+            border-radius: 20px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
-        
-        .problem-card {
-            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            text-align: center;
+        .schedule-table { width: 100%; border-collapse: collapse; }
+        .schedule-table th {
+            background: rgba(212,175,55,0.12); color: #d4af37;
+            padding: 14px 20px; font-size: 14px; font-weight: 600;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); text-align: center;
         }
-        
-        .problem-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3);
-            border-color: rgba(212, 175, 55, 0.5);
+        .schedule-table td {
+            padding: 14px 20px; font-size: 15px; color: #c5c8cd;
+            border-bottom: 1px solid rgba(212,175,55,0.07); text-align: center; vertical-align: middle;
         }
-        
-        .problem-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #d4af37;
+        .schedule-table tr:last-child td { border-bottom: none; }
+        .schedule-table tr.active-row td { color: white; background: rgba(212,175,55,0.05); }
+        .schedule-table tr.tbd-row td { color: #4a4d55; }
+ 
+        .sched-badge {
+            display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 12px;
         }
-        
-        .problem-card p {
-            color: #c5c8cd;
-            font-size: 16px;
-            line-height: 1.7;
-        }
-        
-        .problem-card .icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            filter: grayscale(30%);
-        }
-        
-        /* Solution Section */
-        .solution-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);
-            position: relative;
-        }
-        
-        .solution-section p {
-            color: #c5c8cd;
-        }
+        .sched-badge.done     { background: rgba(107,110,118,0.2); color: #8a8d95; }
+        .sched-badge.active   { background: rgba(212,175,55,0.2); color: #d4af37; }
+        .sched-badge.upcoming { background: rgba(212,175,55,0.08); color: rgba(212,175,55,0.6); border: 1px dashed rgba(212,175,55,0.3); }
+        .sched-badge.tbd      { background: rgba(60,62,70,0.3); color: #4a4d55; }
+
+        /* Problem Section */
+        .problem-section { padding: 100px 0; background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%); }
+        .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 50px; position: relative; z-index: 1; }
+        .problem-card { background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%); color: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: all 0.4s ease; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; }
+        .problem-card:hover { transform: translateY(-10px); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3); border-color: rgba(212, 175, 55, 0.5); }
+        .problem-card h3 { font-size: 22px; margin-bottom: 15px; color: #d4af37; }
+        .problem-card p { color: #c5c8cd; font-size: 16px; line-height: 1.7; }
+        .problem-card .icon { font-size: 48px; margin-bottom: 20px; filter: grayscale(30%); }
         
         .highlight-box {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            color: white;
-            padding: 50px;
-            border-radius: 25px;
-            margin: 50px auto;
-            max-width: 900px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            text-align: center;
+            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); color: white; padding: 50px; border-radius: 25px; margin: 50px auto;
+            max-width: 900px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.3); text-align: center;
         }
+        .highlight-box h3 { font-size: 32px; margin-bottom: 30px; color: #d4af37; }
+        .highlight-box p { font-size: 17px; line-height: 2; color: #c5c8cd; }
         
-        .highlight-box h3 {
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: #d4af37;
-        }
-        
-        .highlight-box p {
-            font-size: 17px;
-            line-height: 2;
-            color: #c5c8cd;
-        }
-        
-        /* Interview Quote */
-        .interview-quote {
-            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%);
-            border-left: 5px solid #d4af37;
-            padding: 40px 50px;
-            margin: 50px auto;
-            max-width: 900px;
-            border-radius: 15px;
-            font-size: 20px;
-            font-weight: normal;
-            color: #e8eaed;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            text-align: center;
-        }
+        /* Solution Section */
+        .solution-section { padding: 100px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%); }
+        .interview-quote { background: linear-gradient(135deg, #1a1d29 0%, #2d3142 100%); border-left: 5px solid #d4af37; padding: 40px 50px; margin: 50px auto; max-width: 900px; border-radius: 15px; font-size: 20px; font-weight: normal; color: #e8eaed; box-shadow: 0 10px 40px rgba(0,0,0,0.4); text-align: center; }
         
         /* Curriculum Section */
-        .curriculum-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
-        }
-        
-        .curriculum-list {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .curriculum-item {
-            padding: 35px;
-            margin: 25px 0;
-            border-left: 4px solid #d4af37;
-            background: rgba(212, 175, 55, 0.05);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            color: white;
-            text-align: center;
-        }
-        
-        .curriculum-item:hover {
-            background: rgba(212, 175, 55, 0.1);
-            border-left-width: 8px;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
-        }
-        
-        .curriculum-item h4 {
-            color: #d4af37;
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        .curriculum-item p {
-            color: #c5c8cd;
-            font-size: 16px;
-            line-height: 1.9;
-        }
+        .curriculum-section { padding: 100px 0; background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%); }
+        .curriculum-list { background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); padding: 40px; border-radius: 25px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.2); max-width: 1000px; margin: 0 auto; }
+        .curriculum-item { padding: 35px; margin: 25px 0; border-left: 4px solid #d4af37; background: rgba(212, 175, 55, 0.05); border-radius: 12px; transition: all 0.3s ease; color: white; text-align: center; }
+        .curriculum-item:hover { background: rgba(212, 175, 55, 0.1); border-left-width: 8px; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); }
+        .curriculum-item h4 { color: #d4af37; font-size: 22px; margin-bottom: 15px; }
+        .curriculum-item p { color: #c5c8cd; font-size: 16px; line-height: 1.9; }
         
         /* Testimonials Section */
-        .testimonial-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 28px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            border-radius: 20px;
-            padding: 36px 32px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            text-align: left;
-            position: relative;
-            transition: all 0.4s ease;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.25);
-            border-color: rgba(212, 175, 55, 0.45);
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 18px;
-            left: 24px;
-            font-size: 56px;
-            font-weight: 800;
-            color: rgba(212, 175, 55, 0.25);
-            line-height: 1;
-            font-family: Georgia, serif;
-        }
-
-        .testimonial-card p {
-            color: #c5c8cd;
-            font-size: 15.5px;
-            line-height: 1.85;
-            position: relative;
-            z-index: 1;
-            margin-top: 20px;
-        }
-
-        .testimonial-card .reviewer {
-            margin-top: 18px;
-            font-size: 13px;
-            color: #d4af37;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
+        .testimonial-section { padding: 100px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%); }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
+        .testimonial-card { background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); border-radius: 20px; padding: 36px 32px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.4); text-align: left; position: relative; transition: all 0.4s ease; }
+        .testimonial-card:hover { transform: translateY(-6px); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.25); border-color: rgba(212, 175, 55, 0.45); }
+        .testimonial-card::before { content: '"'; position: absolute; top: 18px; left: 24px; font-size: 56px; font-weight: 800; color: rgba(212, 175, 55, 0.25); line-height: 1; font-family: Georgia, serif; }
+        .testimonial-card p { color: #c5c8cd; font-size: 15.5px; line-height: 1.85; position: relative; z-index: 1; margin-top: 20px; }
+        .testimonial-card .reviewer { margin-top: 18px; font-size: 13px; color: #d4af37; font-weight: 600; letter-spacing: 0.5px; }
 
         /* Time Investment Section */
-        .time-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
-        }
-
-        .time-section .section-subtitle {
-            text-align: center;
-            font-size: 18px;
-            color: #c5c8cd;
-            margin-top: -40px;
-            margin-bottom: 50px;
-        }
-
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .time-card {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            border-radius: 16px;
-            padding: 30px 28px;
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-
-        .time-card:hover {
-            border-color: rgba(212, 175, 55, 0.35);
-            box-shadow: 0 10px 35px rgba(212, 175, 55, 0.15);
-        }
-
-        .time-card .time-label {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.12);
-            color: #d4af37;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 5px 14px;
-            border-radius: 20px;
-            margin-bottom: 14px;
-        }
-
-        .time-card p {
-            color: #c5c8cd;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .time-summary {
-            max-width: 700px;
-            margin: 50px auto 0;
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 16px;
-            padding: 30px 35px;
-            text-align: center;
-        }
-
-        .time-summary p {
-            color: #e8eaed;
-            font-size: 17px;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .time-summary .highlight {
-            color: #d4af37;
-            font-weight: 700;
-            font-size: 20px;
-        }
+        .time-section { padding: 100px 0; background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%); }
+        .time-section .section-subtitle { text-align: center; font-size: 18px; color: #c5c8cd; margin-top: -40px; margin-bottom: 50px; }
+        .time-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .time-card { background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); border-radius: 16px; padding: 30px 28px; border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 8px 30px rgba(0,0,0,0.35); text-align: left; transition: all 0.3s ease; }
+        .time-card:hover { border-color: rgba(212, 175, 55, 0.35); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.15); }
+        .time-card .time-label { display: inline-block; background: rgba(212, 175, 55, 0.12); color: #d4af37; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; margin-bottom: 14px; }
+        .time-card p { color: #c5c8cd; font-size: 15px; line-height: 1.8; }
+        .time-summary { max-width: 700px; margin: 50px auto 0; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 16px; padding: 30px 35px; text-align: center; }
+        .time-summary p { color: #e8eaed; font-size: 17px; font-weight: 500; line-height: 1.7; }
+        .time-summary .highlight { color: #d4af37; font-weight: 700; font-size: 20px; }
         
         /* Target Audience */
-        .target-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .info-card {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.4s ease;
-        }
-        
-        .info-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3);
-            border-color: rgba(212, 175, 55, 0.5);
-        }
-        
-        .info-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #d4af37;
-        }
-        
-        .info-card p {
-            font-size: 16px;
-            line-height: 1.7;
-            color: #c5c8cd;
-        }
+        .target-section { padding: 100px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        .info-card { background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); color: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.4s ease; }
+        .info-card:hover { transform: translateY(-10px); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.3); border-color: rgba(212, 175, 55, 0.5); }
+        .info-card h3 { font-size: 24px; margin-bottom: 15px; color: #d4af37; }
+        .info-card p { font-size: 16px; line-height: 1.7; color: #c5c8cd; }
         
         /* Pricing Section */
-        .pricing-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);
-            text-align: center;
-        }
-        
-        .price-card {
-            background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%);
-            max-width: 650px;
-            margin: 50px auto;
-            padding: 60px;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            text-align: center;
-        }
-        
-        .original-price {
-            font-size: 26px;
-            text-decoration: line-through;
-            color: #6b6e76;
-            margin-bottom: 10px;
-        }
-        
-        .current-price {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #d4af37 0%, #f4e5b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-        }
-        
-        .early-bird {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
-            color: #0b0c10;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
-        }
-        
-        .benefits-list {
-            background: rgba(212, 175, 55, 0.05);
-            padding: 35px;
-            border-radius: 20px;
-            margin-top: 30px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-        
-        .benefits-list h4 {
-            color: #d4af37;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-        
-        .benefits-list ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .benefits-list li {
-            color: #c5c8cd;
-            padding: 12px 0;
-            font-size: 17px;
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .benefits-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #d4af37;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
+        .pricing-section { padding: 100px 0; background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%); text-align: center; }
+        .price-card { background: linear-gradient(135deg, #2d3142 0%, #1a1d29 100%); max-width: 650px; margin: 50px auto; padding: 60px; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 2px solid rgba(212, 175, 55, 0.3); text-align: center; }
+        .original-price { font-size: 26px; text-decoration: line-through; color: #6b6e76; margin-bottom: 10px; }
+        .current-price { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #d4af37 0%, #f4e5b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; }
+        .early-bird { background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%); color: #0b0c10; padding: 12px 25px; border-radius: 30px; font-weight: 600; display: inline-block; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4); }
+        .benefits-list { background: rgba(212, 175, 55, 0.05); padding: 35px; border-radius: 20px; margin-top: 30px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: left;}
+        .benefits-list h4 { color: #d4af37; font-size: 22px; margin-bottom: 20px; }
+        .benefits-list ul { list-style: none; padding: 0; }
+        .benefits-list li { color: #c5c8cd; padding: 12px 0; font-size: 17px; position: relative; padding-left: 30px; }
+        .benefits-list li:before { content: "✓"; position: absolute; left: 0; color: #d4af37; font-weight: bold; font-size: 20px; }
+
         /* CTA Section */
-        .final-cta {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-        
-        .final-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
-            z-index: 0;
-        }
-        
-        .final-cta > .container {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .final-cta h2 {
-            font-size: 48px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .final-cta .cta-button-large {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%);
-            color: #0b0c10;
-            padding: 25px 70px;
-            font-size: 26px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 700;
-            margin-top: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-        }
-        
-        .final-cta .cta-button-large:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.6);
-        }
+        .final-cta { padding: 100px 0; background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%); color: white; text-align: center; position: relative; }
+        .final-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%); z-index: 0; }
+        .final-cta > .container { position: relative; z-index: 1; }
+        .final-cta h2 { font-size: 48px; margin-bottom: 30px; background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .final-cta .cta-button-large { background: linear-gradient(135deg, #d4af37 0%, #c9a033 100%); color: #0b0c10; padding: 25px 70px; font-size: 26px; border-radius: 50px; text-decoration: none; display: inline-block; font-weight: 700; margin-top: 30px; transition: all 0.3s ease; box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4); }
+        .final-cta .cta-button-large:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.6); }
         
         /* Footer */
-        footer {
-            background: #0b0c10;
-            color: #c5c8cd;
-            text-align: center;
-            padding: 50px 0;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-        }
+        footer { background: #0b0c10; color: #c5c8cd; text-align: center; padding: 50px 0; border-top: 1px solid rgba(212, 175, 55, 0.2); }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 32px;
-            }
+            .hero h1 { font-size: 32px; }
+            .hero .subtitle { font-size: 18px; }
+            .hero .tagline { font-size: 22px; padding: 20px 25px; }
+            .section-title { font-size: 28px; }
             
-            .hero .subtitle {
-                font-size: 18px;
-            }
-            
-            .hero .tagline {
-                font-size: 22px;
-                padding: 20px 25px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .problem-grid, .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .curriculum-list {
-                padding: 20px;
-            }
-            
-            .curriculum-item {
-                padding: 25px;
-            }
-            
-            .curriculum-item h4 {
-                font-size: 19px;
-            }
-            
-            .curriculum-item p {
-                font-size: 15px;
-                line-height: 1.8;
-            }
-            
-            .highlight-box {
-                padding: 30px 25px;
-            }
-            
-            .highlight-box p {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-            
-            .interview-quote {
-                font-size: 17px;
-                padding: 25px;
-            }
-            
-            .price-card {
-                padding: 40px 25px;
-            }
-            
-            .benefits-list {
-                padding: 25px 20px;
-            }
-            
-            .benefits-list li {
-                font-size: 15px;
-            }
-            
-            .final-cta h2 {
-                font-size: 28px;
-            }
-            
-            .final-cta .cta-button-large {
-                padding: 18px 45px;
-                font-size: 20px;
-            }
+            /* 모바일 헤더 & 탭 최적화 */
+            .header-content { flex-direction: row; gap: 10px; }
+            .logo { font-size: 18px; }
+            .cta-button { padding: 8px 16px; font-size: 13px; }
+            .sticky-tabs .tab-list { gap: 10px; justify-content: space-between; }
+            .tab-link { font-size: 13.5px; padding: 12px 0; }
 
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .testimonial-card {
-                padding: 28px 24px;
-            }
-
-            .testimonial-card p {
-                font-size: 14.5px;
-            }
-
-            .time-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .time-summary {
-                padding: 24px 20px;
-            }
-
-            .time-summary p {
-                font-size: 15px;
-            }
-
-            .time-summary .highlight {
-                font-size: 18px;
-            }
+            .problem-grid, .info-grid { grid-template-columns: 1fr; }
+            .curriculum-list { padding: 20px; }
+            .curriculum-item { padding: 25px; }
+            .curriculum-item h4 { font-size: 19px; }
+            .curriculum-item p { font-size: 15px; line-height: 1.8; }
+            .highlight-box { padding: 30px 25px; }
+            .highlight-box p { font-size: 14px; line-height: 1.8; }
+            .interview-quote { font-size: 17px; padding: 25px; }
+            .price-card { padding: 40px 25px; }
+            .benefits-list { padding: 25px 20px; }
+            .benefits-list li { font-size: 15px; }
+            .final-cta h2 { font-size: 28px; }
+            .final-cta .cta-button-large { padding: 18px 45px; font-size: 20px; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .testimonial-card { padding: 28px 24px; }
+            .testimonial-card p { font-size: 14.5px; }
+            .time-grid { grid-template-columns: 1fr; }
+            .time-summary { padding: 24px 20px; }
+            .time-summary p { font-size: 15px; }
+            .time-summary .highlight { font-size: 18px; }
         }
         
         /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .fade-in {
-            animation: fadeInUp 0.8s ease-out;
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeInUp 0.8s ease-out; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">공대삼쩜영 회로설계</div>
-                <a href="#apply" class="cta-button">지금 신청하기</a>
-            </div>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <p class="subtitle" style="font-size: 18px; margin-bottom: 10px; opacity: 0.95; font-weight: 500;">반도체 엔지니어를 위한 특별한 성장 경험</p>            
-            <h1 class="fade-in">Mini-NPU Core RTL<br>설계 및 검증</h1>
-            <p class="subtitle">공대삼쩜영이 [3기 스터디원]을 모집합니다</p>
-            <div class="badge">📋 면접 후 최종확정</div>
-            <p class="tagline">2개월 안에 수료!<br>
-                현업 프로젝트 함께하기</p>
-        </div>
-    </section>
-
-        <section class="pricing-section">
+    <div class="sticky-wrapper" id="site-header">
+        <header>
             <div class="container">
-                <!-- 기수별 일정 테이블 -->
-                <div class="schedule-table-wrap">
+                <div class="header-content">
+                    <div class="logo">공대삼쩜영 회로설계</div>
+                    <a href="#apply" class="cta-button">지금 신청하기</a>
+                </div>
+            </div>
+        </header>
+
+        <nav class="sticky-tabs">
+            <div class="container">
+                <div class="tab-list">
+                    <a href="#intro" class="tab-link active">스터디 소개</a>
+                    <a href="#reviews" class="tab-link">수강후기 & 학습량</a>
+                    <a href="#apply" class="tab-link">신청 안내</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="intro" class="scroll-section">
+        <section class="hero">
+            <div class="container">
+                <p class="subtitle" style="font-size: 18px; margin-bottom: 10px; opacity: 0.95; font-weight: 500;">반도체 엔지니어를 위한 특별한 성장 경험</p>            
+                <h1 class="fade-in">Mini-NPU Core RTL<br>설계 및 검증</h1>
+                <p class="subtitle">공대삼쩜영이 [스터디원]을 모집합니다</p>
+                <div class="badge">📋 면접 후 최종확정</div>
+                <p class="tagline">2개월 안에 수료!<br>현업 프로젝트 함께하기</p>
+            </div>
+        </section>
+
+        <section style="padding: 80px 0 90px; background: linear-gradient(180deg, #0b0c10 0%, #1a1d29 100%);">
+            <div class="container">
+                <h2 class="section-title">교육 일정</h2>
+                <div class="schedule-table-wrap" style="margin-top: 0;">
                     <table class="schedule-table">
                         <thead>
                             <tr>
@@ -846,322 +410,218 @@
                         </tbody>
                     </table>
                 </div>
- 
-                <p style="color:var(--text-sub);margin-top:24px;font-size:14px;opacity:.7;">
+                <p style="color: #c5c8cd; margin-top: 18px; font-size: 14px; opacity: .7;">
                     ※ 중간합류는 사전문의 &nbsp;|&nbsp; ※ 일정은 변경될 수 있습니다
                 </p>
             </div>
         </section>
-    
-    <section class="problem-section">       
-        <div class="container">
-            <h2 class="section-title">이런 고민 하고 계신가요?</h2>
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="icon">⏱️</div>
-                    <h3>단기 vs 장기 교육의 딜레마</h3>
-                    <p>1~3일짜리 단기 교육은 스펙이 안 되고<br>
-                        3개월 이상 교육은<br>
-                        학업과 병행하기 어렵습니다.</p>
-                </div>
-                <div class="problem-card">
-                    <div class="icon">💼</div>
-                    <h3>취업에 부족한 경험</h3>
-                    <p>학교 전공수업/캡스톤/이론 강의만으로는<br>
-                        취업하기 힘들어진 세상입니다.</p>
-                </div>
-                <div class="problem-card">
-                    <div class="icon">📚</div>
-                    <h3>규모가 큰 프로젝트 경험</h3>
-                    <p>학부연구생/인턴은 하고 싶어도<br>
-                        할 수 없는게 현실입니다.</p>
-                </div>                
-            </div>
-            
-            <div class="highlight-box" style="margin-top: 60px;">
-                <h3><span style="filter: none; color: white;"></span> 일단 부딪혀봐,<br> 그래야 길이 보여</h3>                    
-                <p><strong>현업에선 말이야.<br></strong>
-                    모든 개념을 완벽하게 배우고 시작하지 않아.<br>
-                    오히려 모르는 상태로<br>
- 부딪히면서 배우는게 훨씬 많지.<br>
-                    <br>
-                    일단 디버깅부터 시작해.<br>
-                    신호를 따라가다 보면<br>
- 자연스럽게 구조를 익히게 되고<br>
-                    필요한 개념은 그때그때 찾아보면서 채우는 거야.<br>
-                    <br>
-                <strong>나는 Verilog를 한 번도 해본 적 없는<br>
-                    Zero-base에서 실무를 시작했어.<br></strong> 
-                    현업 설계 도면을 뜯어보면서<br>
-                    그때그때 필요한 이론을 채웠는데,<br>
-                    돌아보면<br>
-                    이 방식이 가장 빠르게 성장할 수 있었던 길이더라.<br>
-                    <br>
-                    입사 1~2년 만에<br>
-                    인사고과 Top-Grade를 받은 것도<br>
-                    결국 이 방식 덕분이었어.<br>
-                    <br>
-                <strong>지금부터 딱 2개월 동안<br>
-                    현업처럼 트레이닝 시켜줄게.</strong><br>
-                    이론부터 프로젝트까지 전부 커버할거야.<br>
-                    단순히 Tool을 만지는 경험이 아니라<br>
-                    회로설계 실무자가 실제로 하는 설계와<br>
-                    디버깅을 직접 해볼 수 있는<br>
- 프로그램도 제공할 거야.<br>
-                    <br>
-                    프로젝트 결과물은<br>
-                    그대로 네 개인 이력으로 연결되고,<br>
-                    자소서 면접에서 자신 있게 꺼낼 수 있는<br>
-                    고퀄리티 포트폴리오가 될 거야.<br>
-                    <br>                    
-                - 공대삼쩜영 -</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="solution-section">
-        <div class="container">
-            <h2 class="section-title">그래서 준비했습니다</h2>
-            <p style="text-align: center; font-size: 20px; color: #c5c8cd; margin-bottom: 40px;">
-                딱 2개월 동안, 현업 방식 그대로<br>Mini-NPU Core를 직접 설계하고<br>
-                검증해보는 과정
-            </p>            
-            
-            <p style="text-align: center; font-size: 24px; font-weight: 600; color: #d4af37; margin-top: 40px;">
-                이 과정을 따라오시면<br>면접장에서<br>
-                이렇게 말할 수 있습니다.
-            </p>
-            
-            <div class="interview-quote">
-                "저는 NPU 논문을 독학하며, 스펙 분석부터 RTL HW 구현까지 직접 설계하고 검증해본 경험이 있습니다."
-            </div>
-            <div class="interview-quote">
-                "Systolic Array, Controller를 아우르는 전체 data-path를 설계하였고,<br>Testbench를 직접 구현하여 AMBA BUS 환경에서 검증해보았습니다."
-            </div>
-            <div class="interview-quote">
-                "PE 연산기 갯수를 최적화 하여<br>Area를 절감하는 동시에 데이터 재사용성을 높여 PPA 균형점을 찾을 수 있었습니다."
-            </div>
-        </div>
-    </section>
-
-    <section class="curriculum-section">
-        <div class="container">
-            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">📚</span> 프로젝트 진행 과정</h2>            
-            <div class="curriculum-list">
-                <div class="curriculum-item">
-                    <h4>1️⃣<br>
-                        NPU/TPU 구조 이해<br>
-                        & HW 설계 스케치</h4>
-                    <p>✓ 논문 스터디/세미나 - Google TPU 등<br>
-                        ✓ NPU 구조 및 동작원리 스터디<br>
-                        ✓ DNN HW 가속기 스터디 - MNIST 추론모델<br>                        
-                    </p>
-                </div>
-                <div class="curriculum-item">
-                    <h4>2️⃣<br>
-                        실전 RTL설계 - VerilogHDL</h4>
-                    <p>✓ 실제 NPU CHIP 동작 시나리오를 축소 모델로 구현<br>
-                        ✓ NPU Core PE 설계 튜토리얼1-5<br>
-                        ✓ 단일 PE를 2D Systolic 구조로 확장<br>
-                        ✓ NPU Controller 설계<br>
-✓ DNN 가속을 위한 GEMM 엔진 설계
-</p>
-                </div>
-                <div class="curriculum-item">
-                    <h4>3️⃣<br>
-                        실무 검증 - SystemVerilog</h4>
-                    <p>✓ 실전 Simulation 검증 환경 구축<br>
-                        ✓ Self-checking Testbench 구현<br>
-✓ DNN 추론 프로젝트<br>
-                        ✓ SoC AMBA BUS 기반 검증 환경 구축 및 시뮬레이션</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 1기 수강생 실제후기 -->
-    <section class="testimonial-section">
-        <div class="container">
-            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">💬</span> 1기 수강생의 솔직후기</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p>만약 다른 주제로 하신다면 주니어 단계에서 실력을 빠르게 쌓고 싶기에 <strong style="color: #d4af37;">또 참여하고 싶습니다.</strong></p>
-                    <div class="reviewer">— 1기 수강생 고xx 님</div>
-                </div>
-                <div class="testimonial-card">
-                    <p>저는 이번 스터디 전까지는 베릴로그에 대해서도 아예 모르고 디지털 회로설계 직군에 대해서도 거의 모르는 상태였는데, 스터디장님이 열정적으로 이끌어준 덕분에 <strong style="color: #d4af37;">1달만에 문법을 전부 익혀서 코드를 보고 해석할 수 있는 수준이 됐습니다.</strong></p>
-                    <div class="reviewer">— 1기 수강생 양xx 님</div>
-                </div>
-                <div class="testimonial-card">
-                    <p>개인적으로 학습을 진행한다면, 처음부터 시작하기가 껄끄러웠을 것 같습니다. 그런데 스터디장님께서 읽어볼 논문 선정 및 레퍼런스 모델 ZyNet 분석부터 이를 NPU 모델로 개선시키는 하나의 플로우를 이끌고 가주셔서 — 물론 스터디 특성상 능동적으로 해야 하는 부분이 훨씬 많지만 — <strong style="color: #d4af37;">이러한 흐름 자체를 만들어주셔서 개인적으로는 너무 학습 흐름이 만족스러웠습니다!</strong></p>
-                    <div class="reviewer">— 1기 수강생 윤xx 님</div>
-                </div>
-                <div class="testimonial-card">
-                    <p>스터디를 진행하며 Blog에 학습 내용을 정리하다 보니 <strong style="color: #d4af37;">자연스럽게 포트폴리오가 쌓이고 있고,</strong> 다른 스터디원들과 정보를 공유하는 과정에서 "이런 방식으로 접근하면 해결할 수 있겠구나"와 같은 여러 insight를 얻을 수 있었다는 점도 긍정적으로 느끼고 있습니다.</p>
-                    <div class="reviewer">— 1기 수강생 김xx 님</div>
-                </div>
-                <div class="testimonial-card">
-                    <p>한 번에 설계하는 구조가 아니라 <strong style="color: #d4af37;">기초가 되는 부분부터 단계별로 설계해나가며</strong> 이 기능을 추가하려면 어떻게 설계해야하고 어떻게 상호작용하는지 생각해 볼 수 있어 좋았습니다.</p>
-                    <div class="reviewer">— 1기 수강생 허xx 님</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 1기 수강생 시간 투자 현황 -->
-    <section class="time-section">
-        <div class="container">
-            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">⏰</span> 1기 수강생들의 실제 학습시간</h2>
-            <p class="section-subtitle">1기 수강생분들은 매주 이 정도의 시간을 스터디에 투자했습니다</p>
-            <div class="time-grid">
-                <div class="time-card">
-                    <span class="time-label">수강생 김xx 님</span>
-                    <p><strong style="color: #d4af37;">1~2주차까지 약 2주 동안 총 15시간 정도</strong>를 사용했습니다. 2~3주차에는 이전 주차에서 미흡하다고 느꼈던 부분 보완과 개념 정리, 튜토리얼까지 함께 진행하면서 각 주차별로 약 30시간 정도를 투자했습니다. 4~5주차에는 주당 약 10시간 정도를 사용하게 되었습니다.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">수강생 오xx 님</span>
-                    <p>1~2주차까지는 <strong style="color: #d4af37;">베릴로그 공부와 분석에 20시간 정도 투자,</strong> 3주차부터는 면접 일정이 겹쳐서, 10시간 언더로 했습니다.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">수강생 옥xx 님</span>
-                    <p>1~3주차는 한 <strong style="color: #d4af37;">12시간</strong> 정도 사용. 4주차부터는 한 <strong style="color: #d4af37;">15시간</strong> 정도 했습니다.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">수강생 차xx 님</span>
-                    <p>1주차 평일 1시간 + 주말 4시간 / 2주차 평일 2시간 + 주말 6시간 / 3주차 이력서 작성으로 주말 하루 4시간 / 4주차 밀린 과제 해결 위해 평일 3시간 + 주말 7시간 / <strong style="color: #d4af37;">5주차 평일 5시간 + 주말 8시간</strong></p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">수강생 양xx 님</span>
-                    <p>1월까지는 <strong style="color: #d4af37;">하루에 거의 6시간씩</strong> 하면서 베릴로그 기초를 쌓고, 5주차부턴 토익스피킹 공부 때문에 좀 줄었습니다.</p>
-                </div>
-                <div class="time-card">
-                    <span class="time-label">수강생 하xx 님</span>
-                    <p>1~3주차는 <strong style="color: #d4af37;">매주 총 10시간</strong> 정도 사용했고, 4주차부터는 개인 스케줄 문제로 5~7시간 정도 사용했습니다.</p>
-                </div>
-            </div>
-            <div class="time-summary">
-                <p>평균적으로 <span class="highlight">주당 10~15시간</span> 투자<br>
-                현재 진행 중인 학업과 조율이 가능한지 스스로 점검해보시기 바랍니다</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="target-section">
-        <div class="container">
-            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">🎯</span> 이런 분들께 추천합니다</h2>            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>참여 대상</h3>
-                    <p>반도체 회로설계 진로를 희망하는<br>3학년 이상 학생</p>
-                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">선수과목: 디지털논리, Verilog 연관 교과목</p>
-                </div>
-                <div class="info-card">
-                    <h3>진행 방식</h3>
-                    <p>매주 1회 Zoom 미팅<br>
-                        + 상시 1:1케어</p>
-                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">매주 수요일 21:00 ~ 22:30 (조율가능)<br>
-                        사수-부사수 관계로 실질적 설계 참여<br>
-                        <br>
-                        ※ 미팅 시간은 강의/과제안내/과제점검/세미나 등으로 유연하게 활용할 예정이며
-                        매주 설계과제 등 미션있습니다.</p>
-                </div>
-                <div class="info-card">
-                    <h3>사전 면접</h3>
-                    <p>레벨 테스트 + 유선 통화로<br>스터디원 확정</p>
-                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">단순 전달식 강의가 아닌<br>직접 참여하는 프로젝트</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="pricing-section">
-        <div class="container">
-            <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">💰</span> 참가비</h2>            
-            <div class="price-card">
-                <div class="original-price">400,000원</div>
-                <div class="early-bird">🎁 얼리버드 할인</div>
-                <div class="current-price">360,000원</div>
-                
-                <div class="benefits-list">
-                    <h4>🎁 얼리버드 특별 혜택</h4>
-                    <ul>
-                        <li><a href="https://blog.naver.com/star2134/223633273536" target="_blank" style="color: #d4af37; text-decoration: underline;">디지털설계 직무 공략집</a> 제공</li>                        
-                        <li>회로설계 고퀄리티 자소서 제공</li>
-                        <li>직무면접 복기록 제공</li>
-                        <li>상위 1% 합격 이력서 제공</li>
-                    </ul>
+        
+        <section class="problem-section">        
+            <div class="container">
+                <h2 class="section-title">이런 고민 하고 계신가요?</h2>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <div class="icon">⏱️</div>
+                        <h3>단기 vs 장기 교육의 딜레마</h3>
+                        <p>1~3일짜리 단기 교육은 스펙이 안 되고<br>3개월 이상 교육은 학업과 병행하기 어렵습니다.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="icon">💼</div>
+                        <h3>취업에 부족한 경험</h3>
+                        <p>학교 전공수업/캡스톤/이론 강의만으로는<br>취업하기 힘들어진 세상입니다.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="icon">📚</div>
+                        <h3>규모가 큰 프로젝트 경험</h3>
+                        <p>학부연구생/인턴은 하고 싶어도<br>할 수 없는게 현실입니다.</p>
+                    </div>                
                 </div>
                 
-                <p style="color: #c5c8cd; margin-top: 40px; font-size: 17px;">
-                    📅 1기 일정: 12월 23일 ~ 2월 24일<br>
-                    📅 2기 일정: 3월 4일 ~ 4월 중순<br>
-                    <span style="font-size: 14px; opacity: 0.7;">※ 중간합류는 사전문의<br></span>                    
-                    <span style="font-size: 14px; opacity: 0.7;">※ 정기 Zoom 미팅 - 매주 수요일 21시 </span>                    
+                <div class="highlight-box" style="margin-top: 60px;">
+                    <h3>일단 부딪혀봐,<br> 그래야 길이 보여</h3>                    
+                    <p><strong>현업에선 말이야.<br></strong>모든 개념을 완벽하게 배우고 시작하지 않아.<br>오히려 모르는 상태로 부딪히면서 배우는게 훨씬 많지.<br><br>일단 디버깅부터 시작해.<br>신호를 따라가다 보면 자연스럽게 구조를 익히게 되고<br>필요한 개념은 그때그때 찾아보면서 채우는 거야.<br><br><strong>나는 Verilog를 한 번도 해본 적 없는<br>Zero-base에서 실무를 시작했어.<br></strong>현업 설계 도면을 뜯어보면서 그때그때 필요한 이론을 채웠는데,<br>돌아보면 이 방식이 가장 빠르게 성장할 수 있었던 길이더라.<br><br>입사 1~2년 만에 인사고과 Top-Grade를 받은 것도<br>결국 이 방식 덕분이었어.<br><br><strong>지금부터 딱 2개월 동안 현업처럼 트레이닝 시켜줄게.</strong><br>이론부터 프로젝트까지 전부 커버할거야.<br>단순히 Tool을 만지는 경험이 아니라<br>회로설계 실무자가 실제로 하는 설계와<br>디버깅을 직접 해볼 수 있는 프로그램도 제공할 거야.<br><br>프로젝트 결과물은 그대로 네 개인 이력으로 연결되고,<br>자소서 면접에서 자신 있게 꺼낼 수 있는<br>고퀄리티 포트폴리오가 될 거야.<br><br>- 공대삼쩜영 -</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="solution-section">
+            <div class="container">
+                <h2 class="section-title">그래서 준비했습니다</h2>
+                <p style="text-align: center; font-size: 20px; color: #c5c8cd; margin-bottom: 40px;">
+                    딱 2개월 동안, 현업 방식 그대로<br>Mini-NPU Core를 직접 설계하고 검증해보는 과정
+                </p>            
+                <p style="text-align: center; font-size: 24px; font-weight: 600; color: #d4af37; margin-top: 40px;">
+                    이 과정을 따라오시면 면접장에서<br>이렇게 말할 수 있습니다.
+                </p>
+                
+                <div class="interview-quote">"저는 NPU 논문을 독학하며, 스펙 분석부터 RTL HW 구현까지 직접 설계하고 검증해본 경험이 있습니다."</div>
+                <div class="interview-quote">"Systolic Array, Controller를 아우르는 전체 data-path를 설계하였고,<br>Testbench를 직접 구현하여 AMBA BUS 환경에서 검증해보았습니다."</div>
+                <div class="interview-quote">"PE 연산기 갯수를 최적화 하여 Area를 절감하는 동시에 데이터 재사용성을 높여 PPA 균형점을 찾을 수 있었습니다."</div>
+            </div>
+        </section>
+
+        <section class="curriculum-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">📚</span> 프로젝트 진행 과정</h2>            
+                <div class="curriculum-list">
+                    <div class="curriculum-item">
+                        <h4>1️⃣ NPU/TPU 구조 이해 & HW 설계 스케치</h4>
+                        <p>✓ 논문 스터디/세미나 - Google TPU 등<br>✓ NPU 구조 및 동작원리 스터디<br>✓ DNN HW 가속기 스터디 - MNIST 추론모델</p>
+                    </div>
+                    <div class="curriculum-item">
+                        <h4>2️⃣ 실전 RTL설계 - VerilogHDL</h4>
+                        <p>✓ 실제 NPU CHIP 동작 시나리오를 축소 모델로 구현<br>✓ NPU Core PE 설계 튜토리얼1-5<br>✓ 단일 PE를 2D Systolic 구조로 확장<br>✓ NPU Controller 설계<br>✓ DNN 가속을 위한 GEMM 엔진 설계</p>
+                    </div>
+                    <div class="curriculum-item">
+                        <h4>3️⃣ 실무 검증 - SystemVerilog</h4>
+                        <p>✓ 실전 Simulation 검증 환경 구축<br>✓ Self-checking Testbench 구현<br>✓ DNN 추론 프로젝트<br>✓ SoC AMBA BUS 기반 검증 환경 구축 및 시뮬레이션</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <div id="reviews" class="scroll-section">
+        <section class="testimonial-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">💬</span> 1기 수강생의 솔직후기</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>만약 다른 주제로 하신다면 주니어 단계에서 실력을 빠르게 쌓고 싶기에 <strong style="color: #d4af37;">또 참여하고 싶습니다.</strong></p>
+                        <div class="reviewer">— 1기 수강생 고xx 님</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>스터디 전까지는 베릴로그도 아예 모르고 회로설계 직군에 대해서도 거의 모르는 상태였는데, 스터디장님이 열정적으로 이끌어준 덕분에 <strong style="color: #d4af37;">1달만에 문법을 전부 익혀서 코드를 보고 해석할 수 있는 수준이 됐습니다.</strong></p>
+                        <div class="reviewer">— 1기 수강생 양xx 님</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>레퍼런스 모델 ZyNet 분석부터 이를 NPU 모델로 개선시키는 하나의 플로우를 이끌고 가주셔서 <strong style="color: #d4af37;">이러한 흐름 자체를 만들어주셔서 개인적으로는 너무 학습 흐름이 만족스러웠습니다!</strong></p>
+                        <div class="reviewer">— 1기 수강생 윤xx 님</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>학습 내용을 정리하다 보니 <strong style="color: #d4af37;">자연스럽게 포트폴리오가 쌓이고 있고,</strong> 다른 분들과 정보를 공유하며 여러 insight를 얻을 수 있었습니다.</p>
+                        <div class="reviewer">— 1기 수강생 김xx 님</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>한 번에 설계하는 구조가 아니라 <strong style="color: #d4af37;">기초가 되는 부분부터 단계별로 설계해나가며</strong> 이 기능을 추가하려면 어떻게 설계해야하고 어떻게 상호작용하는지 생각해 볼 수 있어 좋았습니다.</p>
+                        <div class="reviewer">— 1기 수강생 허xx 님</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="time-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">⏰</span> 1기 수강생들의 실제 학습시간</h2>
+                <p class="section-subtitle">1기 수강생분들은 매주 이 정도의 시간을 스터디에 투자했습니다</p>
+                <div class="time-grid">
+                    <div class="time-card">
+                        <span class="time-label">수강생 김xx 님</span>
+                        <p><strong style="color: #d4af37;">1~2주차 약 15시간, 2~3주차 약 30시간, 4~5주차 약 10시간</strong> 사용. 미흡한 부분 보완과 개념 정리, 튜토리얼까지 함께 진행했습니다.</p>
+                    </div>
+                    <div class="time-card">
+                        <span class="time-label">수강생 오xx 님</span>
+                        <p>1~2주차까지는 <strong style="color: #d4af37;">베릴로그 공부와 분석에 20시간 정도 투자,</strong> 3주차부터는 면접 일정이 겹쳐서, 10시간 언더로 했습니다.</p>
+                    </div>
+                    <div class="time-card">
+                        <span class="time-label">수강생 옥xx 님</span>
+                        <p>1~3주차는 한 <strong style="color: #d4af37;">12시간</strong> 정도 사용. 4주차부터는 한 <strong style="color: #d4af37;">15시간</strong> 정도 했습니다.</p>
+                    </div>
+                    <div class="time-card">
+                        <span class="time-label">수강생 차xx 님</span>
+                        <p>주말 활용하다가 밀린 과제 해결 위해 <strong style="color: #d4af37;">5주차 평일 5시간 + 주말 8시간</strong> 투자했습니다.</p>
+                    </div>
+                    <div class="time-card">
+                        <span class="time-label">수강생 양xx 님</span>
+                        <p>1월까지는 <strong style="color: #d4af37;">하루에 거의 6시간씩</strong> 하면서 베릴로그 기초를 쌓고, 5주차부턴 토익스피킹 공부 때문에 좀 줄었습니다.</p>
+                    </div>
+                    <div class="time-card">
+                        <span class="time-label">수강생 하xx 님</span>
+                        <p>1~3주차는 <strong style="color: #d4af37;">매주 총 10시간</strong> 정도 사용했고, 4주차부터는 개인 스케줄 문제로 5~7시간 정도 사용했습니다.</p>
+                    </div>
+                </div>
+                <div class="time-summary">
+                    <p>평균적으로 <span class="highlight">주당 10~15시간</span> 투자<br>현재 진행 중인 학업과 조율이 가능한지 스스로 점검해보시기 바랍니다</p>
+                </div>
+            </div>
+        </section>
+    </div> <div id="apply" class="scroll-section">
+        <section class="target-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">🎯</span> 이런 분들께 추천합니다</h2>            
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>참여 대상</h3>
+                        <p>반도체 회로설계 진로를 희망하는<br>3학년 이상 학생</p>
+                        <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">선수과목: 디지털논리, Verilog 연관 교과목</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>진행 방식</h3>
+                        <p>매주 1회 Zoom 미팅<br>+ 상시 1:1케어</p>
+                        <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">매주 1회 21:00 ~ 22:30 (기수별 요일 상이)<br>사수-부사수 관계로 실질적 설계 참여<br><br>※ 미팅 시간은 강의/과제안내/과제점검/세미나 등으로 유연하게 활용할 예정이며 매주 설계과제 등 미션있습니다.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>사전 면접</h3>
+                        <p>레벨 테스트 + 유선 통화로<br>스터디원 확정</p>
+                        <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">단순 전달식 강의가 아닌<br>직접 참여하는 프로젝트</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-section">
+            <div class="container">
+                <h2 class="section-title"><span style="filter: none; -webkit-text-fill-color: white;">💰</span> 참가비</h2>            
+                <div class="price-card">
+                    <div class="original-price">400,000원</div>
+                    <div class="early-bird">🎁 얼리버드 할인</div>
+                    <div class="current-price">360,000원</div>
+                    
+                    <div class="benefits-list">
+                        <h4>🎁 얼리버드 특별 혜택</h4>
+                        <ul>
+                            <li><a href="https://blog.naver.com/star2134/223633273536" target="_blank" style="color: #d4af37; text-decoration: underline;">디지털설계 직무 공략집</a> 제공</li>                        
+                            <li>회로설계 고퀄리티 자소서 제공</li>
+                            <li>직무면접 복기록 제공</li>
+                            <li>상위 1% 합격 이력서 제공</li>
+                        </ul>
+                    </div>                
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="container">
+                <h2>딱 2개월 동안!<br>현업처럼 부딪혀보는 설계 프로젝트</h2>
+                <p style="font-size: 22px; margin: 20px 0; opacity: 0.9; color: #c5c8cd;">
+                    반도체 회로설계,<br>단기교육과 장기교육 사이에서<br>고민하고 계신가요?<br><br>그렇다면 선택지는 하나입니다.
+                </p>
+                <a href="https://forms.gle/PZcTSiSdxZchwRfn7" class="cta-button-large">지금 신청하기 →</a>
+                <p style="font-size: 17px; margin-top: 40px; opacity: 0.9; color: #c5c8cd;">
+                    💬 <a href="https://open.kakao.com/o/sZ1Dm4zf" style="color: #d4af37; text-decoration: underline; font-weight: 600;">카카오톡 오픈채팅으로 문의하기</a>
                 </p>
             </div>
-        </div>
-    </section>
-
-    <section class="final-cta" id="apply">
-        <div class="container">
-            <h2>딱 2개월 동안!<br>
-                현업처럼 부딪혀보는 설계 프로젝트</h2>
-            <p style="font-size: 22px; margin: 20px 0; opacity: 0.9; color: #c5c8cd;">
-                반도체 회로설계,<br>
-                단기교육과 장기교육 사이에서<br>
-                고민하고 계신가요?<br>
-                <br>
-                그렇다면 선택지는 하나입니다.
-            </p>
-            <a href="https://forms.gle/PZcTSiSdxZchwRfn7" class="cta-button-large">지금 신청하기 →</a>
-            <p style="font-size: 17px; margin-top: 40px; opacity: 0.9; color: #c5c8cd;">
-                💬 <a href="https://open.kakao.com/o/sZ1Dm4zf" style="color: #d4af37; text-decoration: underline; font-weight: 600;">카카오톡 오픈채팅으로 문의하기</a>
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 50px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);">
+        </section>
+    </div> <section style="padding: 50px 0; background: linear-gradient(180deg, #1a1d29 0%, #0b0c10 100%);">
         <div class="container">
             <h2 style="font-size: 24px; color: #d4af37; margin-bottom: 25px; font-weight: 600;">공대삼쩜영 알아보기</h2>
-            
             <div style="max-width: 350px; margin: 0 auto;">
                 <a href="https://www.youtube.com/@gongdae3.0" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 22px;">🎥</span>
-                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">YouTube</span>
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 22px;">🎥</span><span style="color: #d4af37; font-size: 16px; font-weight: 500;">YouTube</span></div>
                     <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">비공개 무료강의 & 취업 콘텐츠</span>
                 </a>
-                
                 <a href="https://blog.naver.com/star2134/223633273536" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 22px;">📝</span>
-                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Blog</span>
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 22px;">📝</span><span style="color: #d4af37; font-size: 16px; font-weight: 500;">Blog</span></div>
                     <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">기술 블로그 & 취업 정보</span>
                 </a>
-                
                 <a href="https://wikidocs.net/289932" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 22px;">📚</span>
-                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Wikidocs</span>
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 22px;">📚</span><span style="color: #d4af37; font-size: 16px; font-weight: 500;">Wikidocs</span></div>
                     <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">회로설계 기술 문서</span>
                 </a>
-                
                 <a href="https://www.instagram.com/gongdae3.0" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: all 0.3s ease;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 22px;">📷</span>
-                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">Instagram</span>
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 22px;">📷</span><span style="color: #d4af37; font-size: 16px; font-weight: 500;">Instagram</span></div>
                     <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">이공계 취업 정보</span>
                 </a>
-                
                 <a href="https://naeildo-letuinedu.com/Lecture/lecView?no=144" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; text-decoration: none; transition: all 0.3s ease;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 22px;">🎓</span>
-                        <span style="color: #d4af37; font-size: 16px; font-weight: 500;">렛유인</span>
-                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 22px;">🎓</span><span style="color: #d4af37; font-size: 16px; font-weight: 500;">렛유인</span></div>
                     <span style="color: #c5c8cd; font-size: 13px; opacity: 0.6;">국비지원 부트캠프</span>
                 </a>
             </div>
@@ -1171,28 +631,58 @@
     <footer>
         <div class="container">
             <p>&copy; 2025 공대삼쩜영. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 14px; opacity: 0.7;">
-                반도체 엔지니어를 위한 특별한 성장 경험
-            </p>
+            <p style="margin-top: 10px; font-size: 14px; opacity: 0.7;">반도체 엔지니어를 위한 특별한 성장 경험</p>
         </div>
     </footer>    
 
     <script>
-        // Smooth scroll for anchor links
+        // 1. Smooth Scroll 및 탭 클릭 시 이동
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // 고정된 헤더+탭 메뉴의 전체 높이를 구해서 해당 높이만큼 빼주고 스크롤
+                    const headerOffset = document.getElementById('site-header').offsetHeight;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
-        // Intersection Observer for fade-in animations
+        // 2. Scroll Spy (스크롤 위치에 따라 활성 탭 자동 변경)
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.scroll-section');
+            const navLinks = document.querySelectorAll('.tab-link');
+            const headerOffset = document.getElementById('site-header').offsetHeight;
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                // 스크롤이 해당 섹션의 영역 안에 들어왔는지 확인 (약간의 여유값 10px 부여)
+                if (pageYOffset >= (sectionTop - headerOffset - 10)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 3. Intersection Observer for fade-in animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1207,7 +697,6 @@
             });
         }, observerOptions);
 
-        // Apply animation to sections
         document.querySelectorAll('.problem-card, .curriculum-item, .info-card, .testimonial-card, .time-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
